@@ -39,6 +39,4 @@ class JSXScript(Filter):
             raise FilterError(('jsx: subprocess had error: stderr=%s, '
                                'stdout=%s, returncode=%s') % (
                 stderr, stdout, proc.returncode))
-        elif stderr:
-            print("jsx filter has warnings:", stderr)
         out.write(stdout.decode('utf-8'))
