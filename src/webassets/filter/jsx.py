@@ -10,17 +10,22 @@ __all__ = ('JSXScript',)
 
 
 class JSXScript(Filter):
-    """Converts JSX to real JavaScript."""
+    """Converts JSX (from Facebook's React) to real JavaScript."""
 
     name = 'jsx'
-    max_debug_level = None
-    options = {}
+    options = {
+        'binary': 'JSX_BIN',
+        'extra_args': 'JSX_EXTRA_ARGS',
+    }
 
     def output(self, _in, out, **kw):
-        binary = 'jsx'
+        binary = self.binary or 'jsx'
+        args = [binary]
+        if self.extra_args:
+            args.extend(self.extra_args)
 
         try:
-            proc = subprocess.Popen([binary],
+            proc = subprocess.Popen(args,
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
